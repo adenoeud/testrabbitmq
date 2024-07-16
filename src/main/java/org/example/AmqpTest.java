@@ -26,6 +26,9 @@ public class AmqpTest {
     @PostConstruct
     void init() {
         logger.info("AmqpTest init");
-        rabbitTemplate.convertAndSend("source-queue", "", new String("Test").getBytes(StandardCharsets.UTF_8));
+        rabbitTemplate.convertAndSend("source-queue", "", new String("Test").getBytes(StandardCharsets.UTF_8), m -> {
+            m.getMessageProperties().setPriority(null);
+            return m;
+        });
     }
 }
